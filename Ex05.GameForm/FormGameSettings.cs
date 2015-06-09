@@ -9,6 +9,10 @@ namespace Ex05.GameForm
     internal class FormGameSettings : Form
     {
         private const int k_MaxBoardSize = 12;
+        private const string k_BoardSize = "Board Size: {0} x {0} (click to increase)";
+        private const string k_PlayAgainstFriend = "Play against your friend";
+        private const string k_PlayAgainstComputer = "Play against the computer";
+        private const string k_SettingsFormTitle = "Othello - Game Settings";
         
         private Button m_ButtonBoardSize = new Button();
         private Button m_ButtonPlayAgainstComputer = new Button();
@@ -18,10 +22,10 @@ namespace Ex05.GameForm
 
         public FormGameSettings()
         {
-            this.Size = new Size(200, 200);
-           // this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            ClientSize = new Size(230, 90);
+            this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.Text = "Othello - Game Settings";
+            this.Text = k_SettingsFormTitle;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -33,19 +37,20 @@ namespace Ex05.GameForm
 
         private void InitControls()
         {
-            m_ButtonBoardSize.Text = string.Format("Board Size: {0}x{0} (click to increase)", m_BoardSize);
-            m_ButtonBoardSize.Location = new Point(90, 25);
-            m_ButtonBoardSize.Width = 180;
+            m_ButtonBoardSize.Text = string.Format(k_BoardSize, m_BoardSize);
+            m_ButtonBoardSize.Location = new Point(10, 10);
+            m_ButtonBoardSize.Width = 210;
             m_ButtonBoardSize.Height = 30;
 
-            m_ButtonPlayAgainstComputer.Text = "Play against the computer";
-            m_ButtonPlayAgainstComputer.Location = new Point(45, m_ButtonBoardSize.Location.Y + 45);
-            m_ButtonPlayAgainstComputer.Width = 90;
+            m_ButtonPlayAgainstComputer.Text = k_PlayAgainstComputer;
+            m_ButtonPlayAgainstComputer.Location = new Point(10, m_ButtonBoardSize.Location.Y + 45);
+            m_ButtonPlayAgainstComputer.Width = 100;
             m_ButtonPlayAgainstComputer.Height = 30;
 
-            m_ButtonPlayAgainstFriend.Text = "Play against your friend";
-            m_ButtonPlayAgainstFriend.Location = new Point(135, m_ButtonBoardSize.Location.Y + 45);
-            m_ButtonPlayAgainstFriend.Width = 90;
+            m_ButtonPlayAgainstFriend.Text = k_PlayAgainstFriend;
+            m_ButtonPlayAgainstFriend.Location = new Point(m_ButtonPlayAgainstComputer.Location.X + m_ButtonPlayAgainstComputer.Width + 10,
+                                                            m_ButtonBoardSize.Location.Y + 45);
+            m_ButtonPlayAgainstFriend.Width = 100;
             m_ButtonPlayAgainstFriend.Height = 30;
 
             this.Controls.AddRange(new Control[] { m_ButtonBoardSize, m_ButtonPlayAgainstComputer, m_ButtonPlayAgainstFriend });
@@ -62,7 +67,7 @@ namespace Ex05.GameForm
                 m_BoardSize += 2;
             }
 
-            m_ButtonBoardSize.Text = string.Format("Board Size: {0}x{0} (click to increase)", m_BoardSize);
+            m_ButtonBoardSize.Text = string.Format(k_BoardSize, m_BoardSize);
         }
 
         private void m_ButtonPlayAgainstComputer_Click(object sender, EventArgs e)
