@@ -15,7 +15,7 @@ namespace Ex05.GameForm
 
         private int m_BoardSize;
         private Button[,] m_BoardCells;
-        GameState m_CurrentGameState;
+        private GameState m_CurrentGameState;
 
         public FormGame(int i_BoardSize, bool i_AgainstComputer)
         {

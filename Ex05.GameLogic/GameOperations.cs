@@ -5,7 +5,7 @@ using System.Text;
 namespace Ex05.GameLogic
 {
     // this class is in charge of all the different game operations
-    class GameOperations
+    public class GameOperations
     {
         private GameState m_CurrentGameState;
 

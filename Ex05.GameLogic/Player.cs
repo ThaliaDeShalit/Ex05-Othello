@@ -5,7 +5,7 @@ using System.Text;
 namespace Ex05.GameLogic
 {
     // This class holds the data of each player
-    class Player
+    public class Player
     {
         private readonly string m_Name;
         private eColor m_Color;
