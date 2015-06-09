@@ -10,10 +10,9 @@ namespace Ex05.GameForm
         public static void Main()
         {
             FormGameSettings formGameSettings = new FormGameSettings();
-           // FormGame formGame;
+            FormGame formGame;
             bool isGameAgainstComputer;
 
-            ap
 
             if (formGameSettings.ShowDialog() == DialogResult.Yes)
             {
@@ -24,9 +23,9 @@ namespace Ex05.GameForm
                 isGameAgainstComputer = false;
             }
 
-         //   formGame = new FormGame(formGameSettings.BoardSize, isGameAgainstComputer);
+            formGame = new FormGame(formGameSettings.BoardSize, isGameAgainstComputer);
 
-            //formGame.ShowDialog();
+            formGame.ShowDialog();
         }
     }
 }
