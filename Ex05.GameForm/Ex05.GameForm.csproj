@@ -50,6 +50,12 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ex05.GameLogic\Ex05.GameLogic.csproj">
+      <Project>{bfc5fb4c-0493-4e16-92fe-c685c38ac3e8}</Project>
+      <Name>Ex05.GameLogic</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

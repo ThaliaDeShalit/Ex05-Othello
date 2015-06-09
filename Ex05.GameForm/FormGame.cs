@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ex05.GameLogic;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
@@ -8,11 +9,13 @@ namespace Ex05.GameForm
 {
     class FormGame : Form
     {
-        int k_buttonSize = 50;
-        int k_buttonMargin = 4;
-        int k_edgeMargin = 10;
+        private int k_buttonSize = 50;
+        private int k_buttonMargin = 4;
+        private int k_edgeMargin = 10;
 
-        int m_BoardSize;
+        private int m_BoardSize;
+        private Button[,] m_BoardCells;
+        GameState m_CurrentGameState;
 
         public FormGame(int i_BoardSize, bool i_AgainstComputer)
         {
@@ -22,20 +25,23 @@ namespace Ex05.GameForm
             FormBorderStyle = FormBorderStyle.Fixed3D;
 
             m_BoardSize = i_BoardSize;
+            m_BoardCells = new Button[m_BoardSize, m_BoardSize];
+
+            m_CurrentGameState = new GameState("White", "Black", i_BoardSize, i_AgainstComputer);
 
             addButtons();
+            initializeGame();
         }
 
+        
         private void addButtons()
         {
-            int row;
-            int line;
             int rowOffset = 10;
-            int lineOffset = 10;
-            for (row = 0; row < m_BoardSize; row++)
+            int lineOffset;
+            for (int row = 0; row < m_BoardSize; row++)
             {
                 lineOffset = 10;
-                for (line = 0; line < m_BoardSize; line++)
+                for (int line = 0; line < m_BoardSize; line++)
                 {
                     Button button = new Button();
                     button.Size = new Size(k_buttonSize, k_buttonSize);
@@ -47,10 +53,34 @@ namespace Ex05.GameForm
                     button.Enabled = false;
                     Controls.Add(button);
                     lineOffset += k_buttonSize;
+
+                    m_BoardCells[row, line] = button; 
                 }
 
                 rowOffset += k_buttonSize;
             }
         }
+
+        private void initializeGame()
+        {
+            for (int i = 0; i < m_BoardSize - 1; i++)
+            {
+                for (int j = 0; j < m_BoardSize - 1; j++)
+                {
+                    switch (m_CurrentGameState.CurrentBoard.GameBoard[i, j])
+                    {
+                        case eBoardCell.Black:
+                            m_BoardCells[i, j].BackColor = Color.Black;
+                            m_BoardCells[i, j].Text = "O";
+                            break;
+                        case eBoardCell.White:
+                            m_BoardCells[i, j].BackColor = Color.White;
+                            m_BoardCells[i, j].Text = "O";
+                            break;
+                    }
+                }
+            }
+        }
+
     }
 }

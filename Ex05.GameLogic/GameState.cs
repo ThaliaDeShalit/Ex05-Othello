@@ -6,7 +6,7 @@ namespace Ex05.GameLogic
 {
     // this class holds the data of the game - the game board, the players, and any data refernce we might need
     // during the game
-    class GameState
+    public class GameState
     {
         private Player m_FirstPlayer;
         private Player m_SecondPlayer;

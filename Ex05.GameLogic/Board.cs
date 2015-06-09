@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ex05.GameLogic
 {
-    class Board
+    public class Board
     {
         private eBoardCell[,] m_GameBoard;
 
