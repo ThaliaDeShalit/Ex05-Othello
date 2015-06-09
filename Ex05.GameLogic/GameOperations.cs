@@ -31,7 +31,7 @@ namespace Ex05.GameLogic
         public void UpdateGame(sMatrixCoordinate i_Move)
         {
             // sets the chosen cell the right color and adds it to the cellsOccupied list of the relevant player
-            m_CurrentGameState.CurrentBoard.Board[i_Move.x, i_Move.y] = (eBoardCell)m_CurrentGameState.CurrentPlayer.Color;
+            m_CurrentGameState.CurrentBoard.GameBoard[i_Move.x, i_Move.y] = (eBoardCell)m_CurrentGameState.CurrentPlayer.Color;
             m_CurrentGameState.CurrentPlayer.CellsOccupied.Add(i_Move);
 
             // check the cell in every direction (8 directions). If adjacent coin is of the other color, send to checkIfCouldFlipInDirection with that direction
@@ -41,7 +41,7 @@ namespace Ex05.GameLogic
 
                 if (isInBounds(adjacentCoordinate, m_CurrentGameState.BoardSize))
                 {
-                    eBoardCell adjacentCell = m_CurrentGameState.CurrentBoard.Board[adjacentCoordinate.x, adjacentCoordinate.y];
+                    eBoardCell adjacentCell = m_CurrentGameState.CurrentBoard.GameBoard[adjacentCoordinate.x, adjacentCoordinate.y];
 
                     // checks if not empty and not in the same color as the move cell (therfor, in the other color)
                     if (!adjacentCell.Equals(eBoardCell.Empty) && !adjacentCell.Equals((eBoardCell)m_CurrentGameState.CurrentPlayer.Color))
@@ -83,7 +83,7 @@ namespace Ex05.GameLogic
             m_CurrentGameState.SecondPlayer.Score = 0;
 
             // runs on the entire board and accumlates the score of the relevant player
-            foreach (eBoardCell cell in m_CurrentGameState.CurrentBoard.Board)
+            foreach (eBoardCell cell in m_CurrentGameState.CurrentBoard.GameBoard)
             {
                 switch (cell)
                 {
@@ -100,9 +100,9 @@ namespace Ex05.GameLogic
         // runs recursivly and flips all coins that are in color of the cell in currentCoordinate
         public void Flip(sMatrixCoordinate i_CurrentCoordinate, sMatrixCoordinate i_Direction, eBoardCell i_CellType)
         {
-            eBoardCell currentBoardCell = m_CurrentGameState.CurrentBoard.Board[i_CurrentCoordinate.x, i_CurrentCoordinate.y];
+            eBoardCell currentBoardCell = m_CurrentGameState.CurrentBoard.GameBoard[i_CurrentCoordinate.x, i_CurrentCoordinate.y];
             sMatrixCoordinate newCoordinate = i_CurrentCoordinate + i_Direction;
-            eBoardCell adjacentCell = m_CurrentGameState.CurrentBoard.Board[newCoordinate.x, newCoordinate.y];
+            eBoardCell adjacentCell = m_CurrentGameState.CurrentBoard.GameBoard[newCoordinate.x, newCoordinate.y];
 
             // check if next cell is of same color - if yes, send recursively. if not, we flipped all in this direction and can stop
             if (adjacentCell.Equals(currentBoardCell))
@@ -113,11 +113,11 @@ namespace Ex05.GameLogic
             // flip this cell - update both players cell lists
             if (currentBoardCell.Equals(eBoardCell.Black))
             {
-                m_CurrentGameState.CurrentBoard.Board[i_CurrentCoordinate.x, i_CurrentCoordinate.y] = eBoardCell.White;
+                m_CurrentGameState.CurrentBoard.GameBoard[i_CurrentCoordinate.x, i_CurrentCoordinate.y] = eBoardCell.White;
             }
             else
             {
-                m_CurrentGameState.CurrentBoard.Board[i_CurrentCoordinate.x, i_CurrentCoordinate.y] = eBoardCell.Black;
+                m_CurrentGameState.CurrentBoard.GameBoard[i_CurrentCoordinate.x, i_CurrentCoordinate.y] = eBoardCell.Black;
             }
 
             if (m_CurrentGameState.CurrentPlayer.Equals(m_CurrentGameState.FirstPlayer))
@@ -144,7 +144,7 @@ namespace Ex05.GameLogic
             // put a coin on, that'll flip all the coins on the way
             foreach (sMatrixCoordinate cellOccupied in i_Player.CellsOccupied)
             {
-                eBoardCell currentBoardCell = m_CurrentGameState.CurrentBoard.Board[cellOccupied.x, cellOccupied.y];
+                eBoardCell currentBoardCell = m_CurrentGameState.CurrentBoard.GameBoard[cellOccupied.x, cellOccupied.y];
 
                 // for each cell occupied, checks all 8 directions to find places to put coins
                 foreach (sMatrixCoordinate direction in m_Directions)
@@ -154,7 +154,7 @@ namespace Ex05.GameLogic
                     // checking that new coordinate is within the boinds of the board
                     if (isInBounds(adjacentCoordinate, m_CurrentGameState.BoardSize))
                     {
-                        eBoardCell adjacentCell = m_CurrentGameState.CurrentBoard.Board[adjacentCoordinate.x, adjacentCoordinate.y];
+                        eBoardCell adjacentCell = m_CurrentGameState.CurrentBoard.GameBoard[adjacentCoordinate.x, adjacentCoordinate.y];
 
                         // checking if there is a valid move at the end of this vector, starting from current coord going in direction
                         if (!currentBoardCell.Equals(adjacentCell) && !adjacentCell.Equals(eBoardCell.Empty))
@@ -184,14 +184,14 @@ namespace Ex05.GameLogic
             int boardSize = m_CurrentGameState.BoardSize - 1;
             if (isInBounds(adjacentCoordinate, m_CurrentGameState.BoardSize))
             {
-                eBoardCell adjacentCell = m_CurrentGameState.CurrentBoard.Board[adjacentCoordinate.x, adjacentCoordinate.y];
+                eBoardCell adjacentCell = m_CurrentGameState.CurrentBoard.GameBoard[adjacentCoordinate.x, adjacentCoordinate.y];
 
                 // if adjacent cell in given direction is a coin of cellType - return MatrixCoordinate of that cell
                 if (adjacentCell.Equals(i_CellType))
                 {
                     returnedCoordinate = adjacentCoordinate;
                 }
-                else if (!adjacentCell.Equals(m_CurrentGameState.CurrentBoard.Board[i_CurrentCoordinate.x, i_CurrentCoordinate.y]))
+                else if (!adjacentCell.Equals(m_CurrentGameState.CurrentBoard.GameBoard[i_CurrentCoordinate.x, i_CurrentCoordinate.y]))
                 {
                     // if adjacent cell is the third kind of cell (not same as me, not same as cellType) or out of board bounds - return null
                     returnedCoordinate = null;

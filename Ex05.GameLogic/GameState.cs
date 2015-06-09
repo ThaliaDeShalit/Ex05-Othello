@@ -57,7 +57,7 @@ namespace Ex05.GameLogic
         {
             get
             {
-                return (int)Math.Sqrt(CurrentBoard.Length);
+                return (int)Math.Sqrt(CurrentBoard.GameBoard.Length);
             }
         }
 

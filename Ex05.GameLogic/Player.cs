@@ -7,11 +7,12 @@ namespace Ex05.GameLogic
     // This class holds the data of each player
     class Player
     {
-        private string m_Name;
+        private readonly string m_Name;
         private eColor m_Color;
         private int m_Score;
         private List<sMatrixCoordinate> m_ValidMoves = new List<sMatrixCoordinate>();
         private List<sMatrixCoordinate> m_CellsOccupied = new List<sMatrixCoordinate>();
+        private Random m_Rnd;
 
         // ctor - adding to the cellsOccupied list the first two coins set on the game board
         public Player(string i_Name, eColor i_Color, sMatrixCoordinate i_FirstCoinPosition, sMatrixCoordinate i_SecondCoindPosition)
@@ -21,6 +22,8 @@ namespace Ex05.GameLogic
             m_CellsOccupied.Add(i_FirstCoinPosition);
             m_CellsOccupied.Add(i_SecondCoindPosition);
             m_Score = 0;
+
+            m_Rnd = new Random();
         }
 
         public string Name
@@ -91,8 +94,7 @@ namespace Ex05.GameLogic
         // in case player is played by computer, this method decides randomly which possible move to make
         public sMatrixCoordinate MakeMove()
         {
-            Random rnd = new Random();
-            int randomNumber = rnd.Next() % m_ValidMoves.Count;
+            int randomNumber = m_Rnd.Next() % m_ValidMoves.Count;
 
             return m_ValidMoves[randomNumber];
         }

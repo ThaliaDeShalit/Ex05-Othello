@@ -8,10 +8,11 @@ namespace Ex05.GameLogic
     // calling ui methods to get input and to show the current state of the game when needed
     class OthelloGame
     {
-        public static void RunGame()
+        private int m_BoardSize;
+        private bool m_AgainstComputer;
+        
+        public void RunGame()
         {
-            string firstPlayerName;
-            string secondPlayerName;
             bool isGameAgainstComputer;
             int boardSize;
             sMatrixCoordinate move;
@@ -21,7 +22,7 @@ namespace Ex05.GameLogic
             bool exitGame = false;
 
             // Getting the data to initalze all the instances needed for the game
-            firstPlayerName = UI.GetName();
+            
             boardSize = UI.GetBoardSize();
             isGameAgainstComputer = UI.PlayAgainstComputer(out secondPlayerName);
 

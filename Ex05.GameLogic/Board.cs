@@ -41,7 +41,7 @@ namespace Ex05.GameLogic
             return newBoard;
         }
 
-        public eBoardCell[,] Board
+        public eBoardCell[,] GameBoard
         {
             get
             {
