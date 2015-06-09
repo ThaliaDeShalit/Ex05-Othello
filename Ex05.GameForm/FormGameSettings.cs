@@ -23,7 +23,7 @@ namespace Ex05.GameForm
         public FormGameSettings()
         {
             ClientSize = new Size(230, 90);
-            this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = FormBorderStyle.Fixed3D;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Text = k_SettingsFormTitle;
         }
