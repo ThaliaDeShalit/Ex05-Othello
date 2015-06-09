@@ -72,10 +72,12 @@ namespace Ex05.GameForm
                         case eBoardCell.Black:
                             m_BoardCells[i, j].BackColor = Color.Black;
                             m_BoardCells[i, j].Text = "O";
+                            m_BoardCells[i, j].ForeColor = Color.White;
                             break;
                         case eBoardCell.White:
                             m_BoardCells[i, j].BackColor = Color.White;
                             m_BoardCells[i, j].Text = "O";
+                            m_BoardCells[i, j].ForeColor = Color.Black;
                             break;
                     }
                 }
