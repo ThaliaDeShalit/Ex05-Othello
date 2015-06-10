@@ -13,6 +13,12 @@ namespace Ex05.GameForm
         private const string k_PlayAgainstFriend = "Play against your friend";
         private const string k_PlayAgainstComputer = "Play against the computer";
         private const string k_SettingsFormTitle = "Othello - Game Settings";
+
+        private const int k_WindowWidth = 300;
+        private const int k_WindowHeight = 150;
+        private const int k_WindowSideMargins = 10;
+        private const int k_WindowTopBottomMargins = 20;
+        private const int k_ButtonHeight = (k_WindowHeight - 3 * k_WindowTopBottomMargins) / 2;
         
         private Button m_ButtonBoardSize = new Button();
         private Button m_ButtonPlayAgainstComputer = new Button();
@@ -22,10 +28,11 @@ namespace Ex05.GameForm
 
         public FormGameSettings()
         {
-            ClientSize = new Size(230, 90);
-            this.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.Text = k_SettingsFormTitle;
+            ClientSize = new Size(k_WindowWidth, k_WindowHeight);
+            FormBorderStyle = FormBorderStyle.Fixed3D;
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = k_SettingsFormTitle;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -38,20 +45,20 @@ namespace Ex05.GameForm
         private void InitControls()
         {
             m_ButtonBoardSize.Text = string.Format(k_BoardSize, m_BoardSize);
-            m_ButtonBoardSize.Location = new Point(10, 10);
-            m_ButtonBoardSize.Width = 210;
-            m_ButtonBoardSize.Height = 30;
+            m_ButtonBoardSize.Location = new Point(k_WindowSideMargins, k_WindowTopBottomMargins);
+            m_ButtonBoardSize.Width = k_WindowWidth - 2 * k_WindowSideMargins;
+            m_ButtonBoardSize.Height = k_ButtonHeight;
 
             m_ButtonPlayAgainstComputer.Text = k_PlayAgainstComputer;
-            m_ButtonPlayAgainstComputer.Location = new Point(10, m_ButtonBoardSize.Location.Y + 45);
-            m_ButtonPlayAgainstComputer.Width = 100;
-            m_ButtonPlayAgainstComputer.Height = 30;
+            m_ButtonPlayAgainstComputer.Location = new Point(k_WindowSideMargins, m_ButtonBoardSize.Location.Y + k_ButtonHeight + k_WindowTopBottomMargins);
+            m_ButtonPlayAgainstComputer.Width = (k_WindowWidth - 3 * k_WindowSideMargins) / 2;
+            m_ButtonPlayAgainstComputer.Height = k_ButtonHeight;
 
             m_ButtonPlayAgainstFriend.Text = k_PlayAgainstFriend;
-            m_ButtonPlayAgainstFriend.Location = new Point(m_ButtonPlayAgainstComputer.Location.X + m_ButtonPlayAgainstComputer.Width + 10,
-                                                            m_ButtonBoardSize.Location.Y + 45);
-            m_ButtonPlayAgainstFriend.Width = 100;
-            m_ButtonPlayAgainstFriend.Height = 30;
+            m_ButtonPlayAgainstFriend.Location = new Point(m_ButtonPlayAgainstComputer.Location.X + m_ButtonPlayAgainstComputer.Width + k_WindowSideMargins,
+                                                            m_ButtonBoardSize.Location.Y + k_ButtonHeight + k_WindowTopBottomMargins);
+            m_ButtonPlayAgainstFriend.Width = (k_WindowWidth - 3 * k_WindowSideMargins) / 2;
+            m_ButtonPlayAgainstFriend.Height = k_ButtonHeight;
 
             this.Controls.AddRange(new Control[] { m_ButtonBoardSize, m_ButtonPlayAgainstComputer, m_ButtonPlayAgainstFriend });
 
