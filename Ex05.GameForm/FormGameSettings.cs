@@ -59,11 +59,11 @@ namespace Ex05.GameForm
             m_ButtonPlayAgainstFriend.Width = (k_WindowWidth - 3 * k_WindowSideMargins) / 2;
             m_ButtonPlayAgainstFriend.Height = k_ButtonHeight;
 
-            this.Controls.AddRange(new Control[] { m_ButtonBoardSize, m_ButtonPlayAgainstComputer, m_ButtonPlayAgainstFriend });
+            Controls.AddRange(new Control[] { m_ButtonBoardSize, m_ButtonPlayAgainstComputer, m_ButtonPlayAgainstFriend });
 
-            this.m_ButtonBoardSize.Click += new EventHandler(m_ButtonBoardSize_Click);
-            this.m_ButtonPlayAgainstComputer.Click += new EventHandler(m_ButtonPlayAgainstComputer_Click);
-            this.m_ButtonPlayAgainstFriend.Click += new EventHandler(m_ButtonPlayAgainstFriend_Click);
+            m_ButtonBoardSize.Click += new EventHandler(m_ButtonBoardSize_Click);
+            m_ButtonPlayAgainstComputer.Click += new EventHandler(m_ButtonPlayAgainstComputer_Click);
+            m_ButtonPlayAgainstFriend.Click += new EventHandler(m_ButtonPlayAgainstFriend_Click);
         }
 
         private void m_ButtonBoardSize_Click(object sender, EventArgs e)
@@ -78,14 +78,14 @@ namespace Ex05.GameForm
 
         private void m_ButtonPlayAgainstComputer_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Yes;
-            this.Close();
+            DialogResult = DialogResult.Yes;
+            Close();
         }
 
         private void m_ButtonPlayAgainstFriend_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.No;
-            this.Close();
+            DialogResult = DialogResult.No;
+            Close();
         }
 
         public int BoardSize
