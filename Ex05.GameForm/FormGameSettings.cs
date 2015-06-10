@@ -32,7 +32,6 @@ namespace Ex05.GameForm
             FormBorderStyle = FormBorderStyle.Fixed3D;
             StartPosition = FormStartPosition.CenterScreen;
             Text = k_SettingsFormTitle;
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
         }
 
         protected override void OnLoad(EventArgs e)
