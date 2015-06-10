@@ -61,9 +61,9 @@ namespace Ex05.GameForm
 
             Controls.AddRange(new Control[] { m_ButtonBoardSize, m_ButtonPlayAgainstComputer, m_ButtonPlayAgainstFriend });
 
-            m_ButtonBoardSize.Click += new EventHandler(m_ButtonBoardSize_Click);
-            m_ButtonPlayAgainstComputer.Click += new EventHandler(m_ButtonPlayAgainstComputer_Click);
-            m_ButtonPlayAgainstFriend.Click += new EventHandler(m_ButtonPlayAgainstFriend_Click);
+            m_ButtonBoardSize.Click += m_ButtonBoardSize_Click;
+            m_ButtonPlayAgainstComputer.Click += m_ButtonPlayAgainstComputer_Click;
+            m_ButtonPlayAgainstFriend.Click += m_ButtonPlayAgainstFriend_Click;
         }
 
         private void m_ButtonBoardSize_Click(object sender, EventArgs e)
