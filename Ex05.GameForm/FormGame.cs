@@ -31,9 +31,9 @@ namespace Ex05.GameForm
 
             addButtons();
             initializeGame();
+            setPossibleMoves();
         }
 
-        
         private void addButtons()
         {
             int rowOffset = 10;
@@ -80,8 +80,34 @@ namespace Ex05.GameForm
                             m_BoardCells[i, j].ForeColor = Color.Black;
                             break;
                     }
+
+                    m_BoardCells[i, j].Enabled = false;
                 }
             }
+        }
+
+        private void setPossibleMoves()
+        {
+            for (int i = 0; i < m_BoardSize; i++)
+            {
+                for (int j = 0; j < m_BoardSize; j++)
+                {
+                    if (m_CurrentGameState.CurrentPlayer.ValidMoves.Contains(new sMatrixCoordinate(i, j)))
+                    {
+                        Button currButton = m_BoardCells[i, j];
+                        currButton.BackColor = Color.LightGreen;
+                        currButton.Enabled = true;
+                        Controls.Add(currButton);
+                        currButton.Click += currButton_Click;
+
+                    }
+                }
+            }
+        }
+
+        private void currButton_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
     }
