@@ -13,6 +13,7 @@ namespace Ex05.GameLogic
         private List<sMatrixCoordinate> m_ValidMoves = new List<sMatrixCoordinate>();
         private List<sMatrixCoordinate> m_CellsOccupied = new List<sMatrixCoordinate>();
         private Random m_Rnd;
+        private int m_GamesWon;
 
         // ctor - adding to the cellsOccupied list the first two coins set on the game board
         public Player(string i_Name, eColor i_Color, sMatrixCoordinate i_FirstCoinPosition, sMatrixCoordinate i_SecondCoindPosition)
@@ -22,6 +23,7 @@ namespace Ex05.GameLogic
             m_CellsOccupied.Add(i_FirstCoinPosition);
             m_CellsOccupied.Add(i_SecondCoindPosition);
             m_Score = 0;
+            m_GamesWon = 0;
 
             m_Rnd = new Random();
         }
@@ -52,6 +54,18 @@ namespace Ex05.GameLogic
             get
             {
                 return m_Color;
+            }
+        }
+
+        public int GamesWon
+        {
+            get
+            {
+                return m_GamesWon;
+            }
+            set
+            {
+                m_GamesWon = value;
             }
         }
 

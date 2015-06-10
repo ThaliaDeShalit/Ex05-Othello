@@ -10,7 +10,7 @@ namespace Ex05.GameForm
     class FormGame : Form
     {
         private const string k_Title = "Othello - {0}'s turn";
-        
+
         private int k_buttonSize = 50;
         private int k_buttonMargin = 4;
         private int k_edgeMargin = 10;
@@ -21,6 +21,8 @@ namespace Ex05.GameForm
         private GameOperations m_GameOperator;
 
         private sMatrixCoordinate m_Move;
+
+        private int m_NumOfGamesPlayed;
 
         public FormGame(int i_BoardSize, bool i_AgainstComputer)
         {
@@ -37,39 +39,97 @@ namespace Ex05.GameForm
 
             addButtons();
 
-            runGame();   
+            runGame();
         }
 
         private void runGame()
         {
-                m_GameOperator.CalcValidMoves(m_CurrentGameState.FirstPlayer);
-                m_GameOperator.CalcValidMoves(m_CurrentGameState.SecondPlayer);
+            m_GameOperator.CalcValidMoves(m_CurrentGameState.FirstPlayer);
+            m_GameOperator.CalcValidMoves(m_CurrentGameState.SecondPlayer);
 
-                updateBoard();
-                if (!checkIfGameIsOver())
+            updateBoard();
+            if (m_CurrentGameState.FirstPlayer.HasValidMoves() || m_CurrentGameState.SecondPlayer.HasValidMoves())
+            {
+                m_CurrentGameState.NextTurn();
+
+                if (m_CurrentGameState.CurrentPlayer.HasValidMoves())
                 {
-                    if (m_CurrentGameState.CurrentPlayer.HasValidMoves())
-                    {
-                        m_CurrentGameState.NextTurn();
-                        setPossibleMoves();                      
-                    }
-                    else
-                    {
-                        //MessageBox show no moves;
-                        m_CurrentGameState.NextTurn();
-                    }
+                    setPossibleMoves();
                 }
+                else
+                {
+                    MessageBoxButtons buttons = MessageBoxButtons.OK;
+                    MessageBox.Show(string.Format("{0} has no moves!", m_CurrentGameState.CurrentPlayer.Name), "Othello", buttons);
+                    runGame();
+                }
+            }
+            else
+            {
+                m_GameOperator.CalcScore();
+
+                Player winner = null;
+                Player loser = null;
+
+                bool tie = false;
+
+                if (m_CurrentGameState.FirstPlayer.Score > m_CurrentGameState.SecondPlayer.Score)
+                {
+                    winner = m_CurrentGameState.FirstPlayer;
+                    loser = m_CurrentGameState.SecondPlayer;
+                }
+                else if (m_CurrentGameState.FirstPlayer.Score < m_CurrentGameState.SecondPlayer.Score)
+                {
+                    winner = m_CurrentGameState.SecondPlayer;
+                    loser = m_CurrentGameState.FirstPlayer;
+                }
+                else
+                {
+                    tie = true;
+                }
+
+                string messageBoxMessage;
+                
+                m_NumOfGamesPlayed++;
+
+                if (!tie)
+                {
+                    winner.GamesWon++;
+
+                    messageBoxMessage = string.Format(
+@"{0} Won!! ({1}/{2}) ({3}/{4})
+Would you like another round?", winner.Name, winner.Score, loser.Score, winner.GamesWon, m_NumOfGamesPlayed);
+                }
+                else
+                {
+                    messageBoxMessage = string.Format(
+@"It's a tie!! ({0}/{0})
+Would you like another round?", m_CurrentGameState.FirstPlayer.Score);
+                }
+
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                DialogResult result = MessageBox.Show(messageBoxMessage, "Othello", buttons);
+
+                if (result == DialogResult.Yes)
+                {
+                    m_CurrentGameState.Restart();
+                    runGame();
+                }
+                else
+                {
+                    Close();
+                }
+
+            }
         }
 
         private bool checkIfGameIsOver()
         {
             bool gameIsOver = false;
-            //if (m_CurrentGameState.GameOver())
-            //{
-            //    m_GameOperator.CalcScore();
-            //    MessageBox = Show score and ask for second game;
-            //    gameIsOver = true;
-            //}
+            if (m_CurrentGameState.GameOver())
+            {
+
+                gameIsOver = true;
+            }
 
             return gameIsOver;
         }
@@ -94,7 +154,7 @@ namespace Ex05.GameForm
                     Controls.Add(button);
                     lineOffset += k_buttonSize;
 
-                    m_BoardCells[row, line] = button; 
+                    m_BoardCells[row, line] = button;
                 }
 
                 rowOffset += k_buttonSize;
@@ -103,7 +163,7 @@ namespace Ex05.GameForm
 
         private void updateBoard()
         {
-            
+
             for (int i = 0; i < m_BoardSize; i++)
             {
                 for (int j = 0; j < m_BoardSize; j++)
@@ -117,16 +177,14 @@ namespace Ex05.GameForm
                         case eBoardCell.Black:
                             currButton.BackColor = Color.Black;
                             currButton.Text = "O";
-                            //currbutton.enabled = true;
-                            currButton.ForeColor = Color.White;
                             break;
                         case eBoardCell.White:
                             currButton.BackColor = Color.White;
                             currButton.Text = "O";
-                            currButton.ForeColor = Color.Black;
                             break;
                         case eBoardCell.Empty:
                             currButton.BackColor = default(Color);
+                            currButton.Text = string.Empty;
                             break;
                     }
 
@@ -136,7 +194,7 @@ namespace Ex05.GameForm
         }
 
         private void setPossibleMoves()
-        {          
+        {
             string currentPlayerName = m_CurrentGameState.CurrentPlayer.Name;
             Text = string.Format(k_Title, currentPlayerName);
             List<sMatrixCoordinate> possibleMoves = m_CurrentGameState.CurrentPlayer.ValidMoves;
@@ -156,12 +214,8 @@ namespace Ex05.GameForm
                 }
             }
 
-            //if (possibleMoves.Count == 0)
-            //{
-            //    MessageBoxButtons buttons = MessageBoxButtons.OK;
-            //    MessageBox.Show("Othello", string.Format("{0} has no moves!", currentPlayerName), buttons);
-            //}
-            
+
+
         }
 
         private void currButton_Click(object sender, EventArgs e)
