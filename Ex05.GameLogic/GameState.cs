@@ -16,13 +16,13 @@ namespace Ex05.GameLogic
         private sMatrixCoordinate? m_LastMove; // keeps the last move played (to be able to show to user) - is nullable in case no move was made
         private string m_NameOfPlayerThatPlayedLastMove; // keeps the name of the person who played the last move played (same reason as LastMove)
 
-        public GameState(string i_FirstPlayerName, string i_SecondPlayerName, int i_BoardSize, bool i_AgainstComputer)
+        public GameState(int i_BoardSize, bool i_AgainstComputer)
         {
             // setting the first player with the first two coins in the middle of the board
-            m_FirstPlayer = new Player(i_FirstPlayerName, eColor.Black, new sMatrixCoordinate((i_BoardSize / 2) - 1, i_BoardSize / 2), new sMatrixCoordinate(i_BoardSize / 2, (i_BoardSize / 2) - 1));
+            m_FirstPlayer = new Player("Black", eColor.Black, new sMatrixCoordinate((i_BoardSize / 2) - 1, i_BoardSize / 2), new sMatrixCoordinate(i_BoardSize / 2, (i_BoardSize / 2) - 1));
 
             // setting the second player with his first two coins
-            m_SecondPlayer = new Player(i_SecondPlayerName, eColor.White, new sMatrixCoordinate((i_BoardSize / 2) - 1, (i_BoardSize / 2) - 1), new sMatrixCoordinate(i_BoardSize / 2, i_BoardSize / 2));
+            m_SecondPlayer = new Player("White", eColor.White, new sMatrixCoordinate((i_BoardSize / 2) - 1, (i_BoardSize / 2) - 1), new sMatrixCoordinate(i_BoardSize / 2, i_BoardSize / 2));
 
             // randomly choosing who is the first player to play
             m_CurrentPlayer = getRandomPlayer();
