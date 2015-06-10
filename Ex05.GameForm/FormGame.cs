@@ -51,8 +51,7 @@ namespace Ex05.GameForm
                     if (m_CurrentGameState.CurrentPlayer.HasValidMoves())
                     {
                         m_CurrentGameState.NextTurn();
-                        setPossibleMoves();
-                        
+                        setPossibleMoves();                      
                     }
                     else
                     {
@@ -104,11 +103,15 @@ namespace Ex05.GameForm
 
         private void updateBoard()
         {
+            
             for (int i = 0; i < m_BoardSize; i++)
             {
                 for (int j = 0; j < m_BoardSize; j++)
                 {
                     Button currButton = m_BoardCells[i, j];
+
+                    currButton.Click -= currButton_Click;
+
                     switch (m_CurrentGameState.CurrentBoard.GameBoard[i, j])
                     {
                         case eBoardCell.Black:
@@ -147,7 +150,7 @@ namespace Ex05.GameForm
                         Button currButton = m_BoardCells[i, j];
                         currButton.BackColor = Color.LightGreen;
                         currButton.Enabled = true;
-                        Controls.Add(currButton);
+                        //Controls.Add(currButton);
                         currButton.Click += currButton_Click;
                     }
                 }
