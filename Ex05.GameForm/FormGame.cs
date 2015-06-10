@@ -50,16 +50,16 @@ namespace Ex05.GameForm
                 {
                     if (m_CurrentGameState.CurrentPlayer.HasValidMoves())
                     {
-                        setPossibleMoves();
                         m_CurrentGameState.NextTurn();
+                        setPossibleMoves();
+                        
                     }
                     else
                     {
                         //MessageBox show no moves;
                         m_CurrentGameState.NextTurn();
                     }
-                
-            }
+                }
         }
 
         private bool checkIfGameIsOver()
@@ -104,9 +104,9 @@ namespace Ex05.GameForm
 
         private void updateBoard()
         {
-            for (int i = 0; i < m_BoardSize - 1; i++)
+            for (int i = 0; i < m_BoardSize; i++)
             {
-                for (int j = 0; j < m_BoardSize - 1; j++)
+                for (int j = 0; j < m_BoardSize; j++)
                 {
                     Button currButton = m_BoardCells[i, j];
                     switch (m_CurrentGameState.CurrentBoard.GameBoard[i, j])
@@ -114,7 +114,7 @@ namespace Ex05.GameForm
                         case eBoardCell.Black:
                             currButton.BackColor = Color.Black;
                             currButton.Text = "O";
-                            currButton.Enabled = true;
+                            //currbutton.enabled = true;
                             currButton.ForeColor = Color.White;
                             break;
                         case eBoardCell.White:
@@ -149,7 +149,6 @@ namespace Ex05.GameForm
                         currButton.Enabled = true;
                         Controls.Add(currButton);
                         currButton.Click += currButton_Click;
-
                     }
                 }
             }
@@ -168,7 +167,7 @@ namespace Ex05.GameForm
             {
                 for (int j = 0; j < m_BoardSize; j++)
                 {
-                    if (m_BoardCells[j, i] == sender)
+                    if (m_BoardCells[i, j] == sender)
                     {
                         m_GameOperator.UpdateGame(new sMatrixCoordinate(i, j));
                         runGame();
