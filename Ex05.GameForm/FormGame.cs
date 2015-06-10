@@ -54,7 +54,20 @@ namespace Ex05.GameForm
 
                 if (m_CurrentGameState.CurrentPlayer.HasValidMoves())
                 {
-                    setPossibleMoves();
+                    if ((m_CurrentGameState.CurrentPlayer == m_CurrentGameState.SecondPlayer) && m_CurrentGameState.IsAgainstComputer)
+                    {
+                        sMatrixCoordinate move = m_CurrentGameState.CurrentPlayer.MakeMove();
+                        m_GameOperator.UpdateGame(move);
+
+                        MessageBoxButtons buttons = MessageBoxButtons.OK;
+                        MessageBox.Show(string.Format("Computer played {0},{1}", (move.x + 1), (move.y + 1)), "Othello", buttons);
+
+                        runGame();
+                    }
+                    else
+                    {
+                        setPossibleMoves();
+                    }
                 }
                 else
                 {
@@ -65,60 +78,64 @@ namespace Ex05.GameForm
             }
             else
             {
-                m_GameOperator.CalcScore();
+                gameOver();
+            }
+        }
 
-                Player winner = null;
-                Player loser = null;
+        private void gameOver()
+        {
+            m_GameOperator.CalcScore();
 
-                bool tie = false;
+            Player winner = null;
+            Player loser = null;
 
-                if (m_CurrentGameState.FirstPlayer.Score > m_CurrentGameState.SecondPlayer.Score)
-                {
-                    winner = m_CurrentGameState.FirstPlayer;
-                    loser = m_CurrentGameState.SecondPlayer;
-                }
-                else if (m_CurrentGameState.FirstPlayer.Score < m_CurrentGameState.SecondPlayer.Score)
-                {
-                    winner = m_CurrentGameState.SecondPlayer;
-                    loser = m_CurrentGameState.FirstPlayer;
-                }
-                else
-                {
-                    tie = true;
-                }
+            bool tie = false;
 
-                string messageBoxMessage;
-                
-                m_NumOfGamesPlayed++;
+            if (m_CurrentGameState.FirstPlayer.Score > m_CurrentGameState.SecondPlayer.Score)
+            {
+                winner = m_CurrentGameState.FirstPlayer;
+                loser = m_CurrentGameState.SecondPlayer;
+            }
+            else if (m_CurrentGameState.FirstPlayer.Score < m_CurrentGameState.SecondPlayer.Score)
+            {
+                winner = m_CurrentGameState.SecondPlayer;
+                loser = m_CurrentGameState.FirstPlayer;
+            }
+            else
+            {
+                tie = true;
+            }
 
-                if (!tie)
-                {
-                    winner.GamesWon++;
+            string messageBoxMessage;
 
-                    messageBoxMessage = string.Format(
+            m_NumOfGamesPlayed++;
+
+            if (!tie)
+            {
+                winner.GamesWon++;
+
+                messageBoxMessage = string.Format(
 @"{0} Won!! ({1}/{2}) ({3}/{4})
 Would you like another round?", winner.Name, winner.Score, loser.Score, winner.GamesWon, m_NumOfGamesPlayed);
-                }
-                else
-                {
-                    messageBoxMessage = string.Format(
+            }
+            else
+            {
+                messageBoxMessage = string.Format(
 @"It's a tie!! ({0}/{0})
 Would you like another round?", m_CurrentGameState.FirstPlayer.Score);
-                }
+            }
 
-                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-                DialogResult result = MessageBox.Show(messageBoxMessage, "Othello", buttons);
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result = MessageBox.Show(messageBoxMessage, "Othello", buttons);
 
-                if (result == DialogResult.Yes)
-                {
-                    m_CurrentGameState.Restart();
-                    runGame();
-                }
-                else
-                {
-                    Close();
-                }
-
+            if (result == DialogResult.Yes)
+            {
+                m_CurrentGameState.Restart();
+                runGame();
+            }
+            else
+            {
+                Close();
             }
         }
 
@@ -170,7 +187,7 @@ Would you like another round?", m_CurrentGameState.FirstPlayer.Score);
                 {
                     Button currButton = m_BoardCells[i, j];
 
-                    currButton.Click -= currButton_Click;
+                    currButton.Click -= buttonToChoose_Click;
 
                     switch (m_CurrentGameState.CurrentBoard.GameBoard[i, j])
                     {
@@ -205,20 +222,16 @@ Would you like another round?", m_CurrentGameState.FirstPlayer.Score);
                 {
                     if (possibleMoves.Contains(new sMatrixCoordinate(i, j)))
                     {
-                        Button currButton = m_BoardCells[i, j];
-                        currButton.BackColor = Color.LightGreen;
-                        currButton.Enabled = true;
-                        //Controls.Add(currButton);
-                        currButton.Click += currButton_Click;
+                        Button buttonToChoose = m_BoardCells[i, j];
+                        buttonToChoose.BackColor = Color.LightGreen;
+                        buttonToChoose.Enabled = true;
+                        buttonToChoose.Click += buttonToChoose_Click;
                     }
                 }
             }
-
-
-
         }
 
-        private void currButton_Click(object sender, EventArgs e)
+        private void buttonToChoose_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < m_BoardSize; i++)
             {
@@ -233,6 +246,5 @@ Would you like another round?", m_CurrentGameState.FirstPlayer.Score);
                 }
             }
         }
-
     }
 }

@@ -25,7 +25,7 @@ namespace Ex05.GameLogic
             m_SecondPlayer = new Player("White", eColor.White, new sMatrixCoordinate((i_BoardSize / 2) - 1, (i_BoardSize / 2) - 1), new sMatrixCoordinate(i_BoardSize / 2, i_BoardSize / 2));
 
             // randomly choosing who is the first player to play
-            m_CurrentPlayer = getRandomPlayer();
+            m_CurrentPlayer = m_SecondPlayer;
 
             // setting wheter the game is against computer
             m_GameAgainstComputer = i_AgainstComputer;
