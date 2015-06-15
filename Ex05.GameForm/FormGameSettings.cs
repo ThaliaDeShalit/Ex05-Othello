@@ -9,6 +9,7 @@ namespace Ex05.GameForm
     internal class FormGameSettings : Form
     {
         private const int k_MaxBoardSize = 12;
+        private const int k_AmountToEnlargeBoardSizeWith = 2;
         private const string k_BoardSize = "Board Size: {0} x {0} (click to increase)";
         private const string k_PlayAgainstFriend = "Play against your friend";
         private const string k_PlayAgainstComputer = "Play against the computer";
@@ -70,7 +71,7 @@ namespace Ex05.GameForm
         {
             if (m_BoardSize < k_MaxBoardSize)
             {
-                m_BoardSize += 2;
+                m_BoardSize += k_AmountToEnlargeBoardSizeWith;
             }
 
             m_ButtonBoardSize.Text = string.Format(k_BoardSize, m_BoardSize);
