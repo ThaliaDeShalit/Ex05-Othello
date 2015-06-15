@@ -16,11 +16,9 @@ namespace Ex05.GameForm
         private int k_edgeMargin = 10;
 
         private int m_BoardSize;
-        private Button[,] m_BoardCells;
+        private GameButton[,] m_BoardCells;
         private GameState m_CurrentGameState;
         private GameOperations m_GameOperator;
-
-        private sMatrixCoordinate m_Move;
 
         private int m_NumOfGamesPlayed;
 
@@ -32,7 +30,7 @@ namespace Ex05.GameForm
             FormBorderStyle = FormBorderStyle.Fixed3D;
 
             m_BoardSize = i_BoardSize;
-            m_BoardCells = new Button[m_BoardSize, m_BoardSize];
+            m_BoardCells = new GameButton[m_BoardSize, m_BoardSize];
 
             m_CurrentGameState = new GameState(i_BoardSize, i_AgainstComputer);
             m_GameOperator = new GameOperations(m_CurrentGameState);
@@ -160,7 +158,7 @@ Would you like another round?", m_CurrentGameState.FirstPlayer.Score);
                 lineOffset = 10;
                 for (int line = 0; line < m_BoardSize; line++)
                 {
-                    Button button = new Button();
+                    GameButton button = new GameButton(row, line);
                     button.Size = new Size(k_buttonSize, k_buttonSize);
 
                     int rowMargin = k_buttonMargin * row;
@@ -180,12 +178,11 @@ Would you like another round?", m_CurrentGameState.FirstPlayer.Score);
 
         private void updateBoard()
         {
-
             for (int i = 0; i < m_BoardSize; i++)
             {
                 for (int j = 0; j < m_BoardSize; j++)
                 {
-                    Button currButton = m_BoardCells[i, j];
+                    GameButton currButton = m_BoardCells[i, j];
 
                     currButton.Click -= buttonToChoose_Click;
 
@@ -216,35 +213,21 @@ Would you like another round?", m_CurrentGameState.FirstPlayer.Score);
             Text = string.Format(k_Title, currentPlayerName);
             List<sMatrixCoordinate> possibleMoves = m_CurrentGameState.CurrentPlayer.ValidMoves;
 
-            for (int i = 0; i < m_BoardSize; i++)
+            foreach (sMatrixCoordinate coord in possibleMoves)
             {
-                for (int j = 0; j < m_BoardSize; j++)
-                {
-                    if (possibleMoves.Contains(new sMatrixCoordinate(i, j)))
-                    {
-                        Button buttonToChoose = m_BoardCells[i, j];
-                        buttonToChoose.BackColor = Color.LightGreen;
-                        buttonToChoose.Enabled = true;
-                        buttonToChoose.Click += buttonToChoose_Click;
-                    }
-                }
+                GameButton buttonToChoose = m_BoardCells[coord.x, coord.y];
+                buttonToChoose.BackColor = Color.LightGreen;
+                buttonToChoose.Enabled = true;
+                buttonToChoose.Click += buttonToChoose_Click;
             }
         }
 
         private void buttonToChoose_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < m_BoardSize; i++)
-            {
-                for (int j = 0; j < m_BoardSize; j++)
-                {
-                    if (m_BoardCells[i, j] == sender)
-                    {
-                        m_GameOperator.UpdateGame(new sMatrixCoordinate(i, j));
-                        runGame();
-                        break;
-                    }
-                }
-            }
+            GameButton button = sender as GameButton;
+            m_GameOperator.UpdateGame(new sMatrixCoordinate(button.X, button.Y));
+            runGame();
+
         }
     }
 }
