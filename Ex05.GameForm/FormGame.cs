@@ -38,7 +38,6 @@ Would you like another round?";
             // the margins between the buttons (k_ButtonMargin) and the edge margins (k_EdgeMargin) and
             // of course the size of the board (i_BoardSize)
             int clientSize = 2 * k_EdgeMargin + i_BoardSize * k_ButtonSize + (i_BoardSize - 1) * k_ButtonMargin;
-            string deleteMe;
             ClientSize = new Size(clientSize, clientSize);
 
             // Set the form in the center of the display, set the style and fix the size (Not resizable)
@@ -279,7 +278,7 @@ Would you like another round?";
             }
         }
 
-        // the event method when a buttom is clicked
+        // the event method when a button is clicked
         private void buttonToChoose_Click(object i_Sender, EventArgs i_Args)
         {
             GameButton button = i_Sender as GameButton;
