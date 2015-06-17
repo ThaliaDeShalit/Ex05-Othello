@@ -25,7 +25,7 @@ Would you like another round?";
         private const int k_ButtonMargin = 4;
         private const int k_EdgeMargin = 10;
 
-        private int m_BoardSize;
+        private readonly int m_BoardSize;
         private GameButton[,] m_BoardCells;
         private GameState m_CurrentGameState;
         private GameOperations m_GameOperator;
