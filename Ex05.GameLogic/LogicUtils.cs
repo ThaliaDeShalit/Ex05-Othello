@@ -18,7 +18,7 @@ namespace Ex05.GameLogic
             m_Y = i_Y;
         }
 
-        public int x
+        public int X
         {
             get
             {
@@ -26,7 +26,7 @@ namespace Ex05.GameLogic
             }
         }
 
-        public int y
+        public int Y
         {
             get
             {
@@ -37,7 +37,7 @@ namespace Ex05.GameLogic
         // adds two matrix coordinates to create a new one
         public static sMatrixCoordinate operator +(sMatrixCoordinate i_FirstMatrixCoordiante, sMatrixCoordinate i_SecondMatrixCoordinate)
         {
-            return new sMatrixCoordinate(i_FirstMatrixCoordiante.x + i_SecondMatrixCoordinate.x, i_FirstMatrixCoordiante.y + i_SecondMatrixCoordinate.y);
+            return new sMatrixCoordinate(i_FirstMatrixCoordiante.X + i_SecondMatrixCoordinate.X, i_FirstMatrixCoordiante.Y + i_SecondMatrixCoordinate.Y);
         }
     }
 

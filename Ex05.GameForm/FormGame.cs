@@ -1,13 +1,13 @@
-﻿using Ex05.GameLogic;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Ex05.GameLogic;
 
 namespace Ex05.GameForm
 {
-    class FormGame : Form
+    internal class FormGame : Form
     {
         private const string k_Title = "Othello - {0}'s turn";
         private const string k_Othello = "Othello";
@@ -37,7 +37,7 @@ Would you like another round?";
             // Dynamically calculate the form size, according to the set button sizes (k_ButtonSize),
             // the margins between the buttons (k_ButtonMargin) and the edge margins (k_EdgeMargin) and
             // of course the size of the board (i_BoardSize)
-            int clientSize = 2 * k_EdgeMargin + i_BoardSize * k_ButtonSize + (i_BoardSize - 1) * k_ButtonMargin;
+            int clientSize = (2 * k_EdgeMargin) + (i_BoardSize * k_ButtonSize) + ((i_BoardSize - 1) * k_ButtonMargin);
             ClientSize = new Size(clientSize, clientSize);
 
             // Set the form in the center of the display, set the style and fix the size (Not resizable)
@@ -99,7 +99,7 @@ Would you like another round?";
                         m_GameOperator.UpdateGame(move);
 
                         MessageBoxButtons buttons = MessageBoxButtons.OK;
-                        MessageBox.Show(string.Format(k_ComputerMove, (move.x + 1), (move.y + 1)), k_Othello, buttons);
+                        MessageBox.Show(string.Format(k_ComputerMove, move.X + 1, move.Y + 1), k_Othello, buttons);
 
                         // a move was made, so there is a need to calculate the possible moves of both players
                         startNextGameLoop();
@@ -113,6 +113,7 @@ Would you like another round?";
                 else
                 {
                     MessageBoxButtons buttons = MessageBoxButtons.OK;
+
                     // as we know no move was made, we can go ahead and start a new game loop without calculating the
                     // possible moves
                     MessageBox.Show(string.Format(k_NoPossibleMoves, m_CurrentGameState.CurrentPlayer.Name), k_Othello, buttons);
@@ -166,11 +167,11 @@ Would you like another round?";
             {
                 winner.GamesWon++;
 
-                messageBoxMessage = string.Format(k_WinMessage , winner.Name, winner.Score, loser.Score, winner.GamesWon, m_NumOfGamesPlayed);
+                messageBoxMessage = string.Format(k_WinMessage, winner.Name, winner.Score, loser.Score, winner.GamesWon, m_NumOfGamesPlayed);
             }
             else
             {
-                messageBoxMessage = string.Format(k_TieMessage , m_CurrentGameState.FirstPlayer.Score);
+                messageBoxMessage = string.Format(k_TieMessage, m_CurrentGameState.FirstPlayer.Score);
             }
 
             buttons = MessageBoxButtons.YesNo;
@@ -201,6 +202,7 @@ Would you like another round?";
                 {
                     // Create a new button and set it's coordinates on the board
                     GameButton button = new GameButton(row, line);
+
                     // Set it's size according to the desired button size (k_ButtonSize)
                     button.Size = new Size(k_ButtonSize, k_ButtonSize);
 
@@ -212,6 +214,7 @@ Would you like another round?";
                     button.Location = new Point(rowOffset + rowMargin, lineOffset + lineMargin);
                     button.Enabled = false;
                     Controls.Add(button);
+
                     // Update the line offset for the next button
                     lineOffset += k_ButtonSize;
 
@@ -271,7 +274,7 @@ Would you like another round?";
             // it to the event listener's list
             foreach (sMatrixCoordinate coord in possibleMoves)
             {
-                GameButton buttonToChoose = m_BoardCells[coord.x, coord.y];
+                GameButton buttonToChoose = m_BoardCells[coord.X, coord.Y];
                 buttonToChoose.BackColor = Color.LightGreen;
                 buttonToChoose.Enabled = true;
                 buttonToChoose.Click += buttonToChoose_Click;

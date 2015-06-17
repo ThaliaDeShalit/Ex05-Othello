@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Ex05.GameForm
 {
-    class Program
+    public class Program
     {
         public static void Main()
         {

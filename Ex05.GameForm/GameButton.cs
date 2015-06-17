@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace Ex05.GameForm
 {
-    class GameButton : Button
+    internal class GameButton : Button
     {
         private int m_X;
         private int m_Y;

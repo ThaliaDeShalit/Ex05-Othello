@@ -39,7 +39,6 @@
     <Compile Include="GameOperations.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="LogicUtils.cs" />
-    <Compile Include="OthelloGame.cs" />
     <Compile Include="Player.cs" />
   </ItemGroup>
   <ItemGroup>
