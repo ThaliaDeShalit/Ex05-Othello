@@ -37,8 +37,8 @@ Would you like another round?";
             // Dynamically calculate the form size, according to the set button sizes (k_ButtonSize),
             // the margins between the buttons (k_ButtonMargin) and the edge margins (k_EdgeMargin) and
             // of course the size of the board (i_BoardSize)
-            ClientSize = new Size(2 * k_EdgeMargin + i_BoardSize * k_ButtonSize + (i_BoardSize - 1) * k_ButtonMargin,
-                2 * k_EdgeMargin + i_BoardSize * k_ButtonSize + (i_BoardSize - 1) * k_ButtonMargin);
+            int clientSize = 2 * k_EdgeMargin + i_BoardSize * k_ButtonSize + (i_BoardSize - 1) * k_ButtonMargin;
+            ClientSize = new Size(clientSize, clientSize);
 
             // Set the form in the center of the display, set the style and fix the size (Not resizable)
             StartPosition = FormStartPosition.CenterScreen;
