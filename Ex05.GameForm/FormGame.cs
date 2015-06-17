@@ -11,9 +11,9 @@ namespace Ex05.GameForm
     {
         private const string k_Title = "Othello - {0}'s turn";
 
-        private int k_buttonSize = 50;
-        private int k_buttonMargin = 4;
-        private int k_edgeMargin = 10;
+        private const int k_ButtonSize = 50;
+        private const int k_ButtonMargin = 4;
+        private const int k_EdgeMargin = 10;
 
         private int m_BoardSize;
         private GameButton[,] m_BoardCells;
@@ -24,8 +24,8 @@ namespace Ex05.GameForm
 
         public FormGame(int i_BoardSize, bool i_AgainstComputer)
         {
-            ClientSize = new Size(2 * k_edgeMargin + i_BoardSize * k_buttonSize + (i_BoardSize - 1) * k_buttonMargin,
-                2 * k_edgeMargin + i_BoardSize * k_buttonSize + (i_BoardSize - 1) * k_buttonMargin);
+            ClientSize = new Size(2 * k_EdgeMargin + i_BoardSize * k_ButtonSize + (i_BoardSize - 1) * k_ButtonMargin,
+                2 * k_EdgeMargin + i_BoardSize * k_ButtonSize + (i_BoardSize - 1) * k_ButtonMargin);
             StartPosition = FormStartPosition.CenterScreen;
             FormBorderStyle = FormBorderStyle.Fixed3D;
 
@@ -142,7 +142,6 @@ Would you like another round?", m_CurrentGameState.FirstPlayer.Score);
             bool gameIsOver = false;
             if (m_CurrentGameState.GameOver())
             {
-
                 gameIsOver = true;
             }
 
@@ -159,20 +158,20 @@ Would you like another round?", m_CurrentGameState.FirstPlayer.Score);
                 for (int line = 0; line < m_BoardSize; line++)
                 {
                     GameButton button = new GameButton(row, line);
-                    button.Size = new Size(k_buttonSize, k_buttonSize);
+                    button.Size = new Size(k_ButtonSize, k_ButtonSize);
 
-                    int rowMargin = k_buttonMargin * row;
-                    int lineMargin = k_buttonMargin * line;
+                    int rowMargin = k_ButtonMargin * row;
+                    int lineMargin = k_ButtonMargin * line;
 
                     button.Location = new Point(rowOffset + rowMargin, lineOffset + lineMargin);
                     button.Enabled = false;
                     Controls.Add(button);
-                    lineOffset += k_buttonSize;
+                    lineOffset += k_ButtonSize;
 
                     m_BoardCells[row, line] = button;
                 }
 
-                rowOffset += k_buttonSize;
+                rowOffset += k_ButtonSize;
             }
         }
 
@@ -227,7 +226,6 @@ Would you like another round?", m_CurrentGameState.FirstPlayer.Score);
             GameButton button = sender as GameButton;
             m_GameOperator.UpdateGame(new sMatrixCoordinate(button.X, button.Y));
             runGame();
-
         }
     }
 }
