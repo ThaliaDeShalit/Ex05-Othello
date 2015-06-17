@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex05.GameLogic", "Ex05.Game
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex05.GameForm", "Ex05.GameForm\Ex05.GameForm.csproj", "{F942DF7A-258D-419D-B6F8-BB99B74F393B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C2CC3092-7C46-475D-9042-2D5368B7B225}"
+	ProjectSection(SolutionItems) = preProject
+		SubmissionReport.txt = SubmissionReport.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
