@@ -37,21 +37,44 @@ namespace Ex05.GameForm
 
             addButtons();
 
-            runGame();
+            startNextGameLoop();
         }
 
-        private void runGame()
+        // this method calculates the possible moves of both player and then starts the
+        // actual game loop - runGame. we use it to avoid multiple calculation in cases a player has no moves
+        private void startNextGameLoop()
         {
+            // calculate each player's current moves at the begining of every turn
             m_GameOperator.CalcValidMoves(m_CurrentGameState.FirstPlayer);
             m_GameOperator.CalcValidMoves(m_CurrentGameState.SecondPlayer);
 
+            // start a new game loop
+            runGame();
+        }
+
+        // this is the method the runs the "game loop" - according to the current game status decides if the
+        // game is over, who's turn is it, and if that player has any moves, and continues the game accordingly
+        private void runGame()
+        {
+            // Update the board presentation at everyturn. happens before any checks are made so that
+            // the board is always updated
             updateBoard();
+
+            // first, check if any of the players have a valid move left, cause if not - the game is over
             if (m_CurrentGameState.FirstPlayer.HasValidMoves() || m_CurrentGameState.SecondPlayer.HasValidMoves())
             {
+                // still have moves, so we switch turns
                 m_CurrentGameState.NextTurn();
 
+                // we check if the current player has a move - if so, a move is chosen (or randomly selected in case it's
+                // the computer's turn). otherwise - we create a message box stating that the current player has no moves
                 if (m_CurrentGameState.CurrentPlayer.HasValidMoves())
                 {
+                    // if the game is against the computer and its the computer's turn, we get a random move
+                    // from the Player class, and then create a message box showing which move was made
+                    // so that the human player won't miss it
+                    // otherwise - we set the possible moves on the board and let the human player (or any
+                    // player if the game is not against the computer) choose a move
                     if ((m_CurrentGameState.CurrentPlayer == m_CurrentGameState.SecondPlayer) && m_CurrentGameState.IsAgainstComputer)
                     {
                         sMatrixCoordinate move = m_CurrentGameState.CurrentPlayer.MakeMove();
@@ -60,10 +83,12 @@ namespace Ex05.GameForm
                         MessageBoxButtons buttons = MessageBoxButtons.OK;
                         MessageBox.Show(string.Format("Computer played {0},{1}", (move.x + 1), (move.y + 1)), "Othello", buttons);
 
-                        runGame();
+                        // a move was made, so there is a need to calculate the possible moves of both players
+                        startNextGameLoop();
                     }
                     else
                     {
+                        // shows possible moves on the board
                         setPossibleMoves();
                     }
                 }
@@ -71,24 +96,36 @@ namespace Ex05.GameForm
                 {
                     MessageBoxButtons buttons = MessageBoxButtons.OK;
                     MessageBox.Show(string.Format("{0} has no moves!", m_CurrentGameState.CurrentPlayer.Name), "Othello", buttons);
+
+                    // as we know no move was made, we can go ahead and start a new game loop without calculating the
+                    // possible moves
                     runGame();
                 }
             }
             else
             {
+                // if we got here, it means no player has any moves left
                 gameOver();
             }
         }
 
+        // this method is called when no player has any possible moves left. it prompts the message box asking
+        // about another games, and also calcualtes the final scores of both players
         private void gameOver()
         {
+            // claculating scores of both players
             m_GameOperator.CalcScore();
 
             Player winner = null;
             Player loser = null;
 
             bool tie = false;
+            string messageBoxMessage;
+            MessageBoxButtons buttons; 
+            DialogResult result;
 
+            // setting the winner and loser pointers to the correct players, or setting tie to 
+            // true in case there's a tie
             if (m_CurrentGameState.FirstPlayer.Score > m_CurrentGameState.SecondPlayer.Score)
             {
                 winner = m_CurrentGameState.FirstPlayer;
@@ -104,10 +141,10 @@ namespace Ex05.GameForm
                 tie = true;
             }
 
-            string messageBoxMessage;
-
+            // augmanting number of games played by 1
             m_NumOfGamesPlayed++;
 
+            // creates relevant message to show in message box
             if (!tie)
             {
                 winner.GamesWon++;
@@ -123,29 +160,19 @@ Would you like another round?", winner.Name, winner.Score, loser.Score, winner.G
 Would you like another round?", m_CurrentGameState.FirstPlayer.Score);
             }
 
-            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-            DialogResult result = MessageBox.Show(messageBoxMessage, "Othello", buttons);
+            buttons = MessageBoxButtons.YesNo;
+            result = MessageBox.Show(messageBoxMessage, "Othello", buttons);
 
+            // according to the users choice, restarts the game or closes the application
             if (result == DialogResult.Yes)
             {
                 m_CurrentGameState.Restart();
-                runGame();
+                startNextGameLoop();
             }
             else
             {
                 Close();
             }
-        }
-
-        private bool checkIfGameIsOver()
-        {
-            bool gameIsOver = false;
-            if (m_CurrentGameState.GameOver())
-            {
-                gameIsOver = true;
-            }
-
-            return gameIsOver;
         }
 
         private void addButtons()
@@ -177,12 +204,16 @@ Would you like another round?", m_CurrentGameState.FirstPlayer.Score);
 
         private void updateBoard()
         {
+            GameButton currButton;
+
+            // goes on the entire game board and set the cells to the relevant color
             for (int i = 0; i < m_BoardSize; i++)
             {
                 for (int j = 0; j < m_BoardSize; j++)
                 {
-                    GameButton currButton = m_BoardCells[i, j];
+                    currButton = m_BoardCells[i, j];
 
+                    // removes the button from the event listener's list as the possible moves were changed
                     currButton.Click -= buttonToChoose_Click;
 
                     switch (m_CurrentGameState.CurrentBoard.GameBoard[i, j])
@@ -209,9 +240,13 @@ Would you like another round?", m_CurrentGameState.FirstPlayer.Score);
         private void setPossibleMoves()
         {
             string currentPlayerName = m_CurrentGameState.CurrentPlayer.Name;
-            Text = string.Format(k_Title, currentPlayerName);
             List<sMatrixCoordinate> possibleMoves = m_CurrentGameState.CurrentPlayer.ValidMoves;
 
+            // sets the title of the form to the name of the current player
+            Text = string.Format(k_Title, currentPlayerName);
+
+            // for each possible move, sets the relevent button on the board to green and adds
+            // it to the event listener's list
             foreach (sMatrixCoordinate coord in possibleMoves)
             {
                 GameButton buttonToChoose = m_BoardCells[coord.x, coord.y];
@@ -221,11 +256,16 @@ Would you like another round?", m_CurrentGameState.FirstPlayer.Score);
             }
         }
 
-        private void buttonToChoose_Click(object sender, EventArgs e)
+        // the event method when a buttom is clicked
+        private void buttonToChoose_Click(object i_Sender, EventArgs i_Args)
         {
-            GameButton button = sender as GameButton;
+            GameButton button = i_Sender as GameButton;
+
+            // updated the game state according to the coordinates of the button that was clicked
             m_GameOperator.UpdateGame(new sMatrixCoordinate(button.X, button.Y));
-            runGame();
+
+            // start next game loop
+            startNextGameLoop();
         }
     }
 }
