@@ -19,6 +19,7 @@ Would you like another round?";
         private const string k_TieMessage =
 @"It's a tie!! ({0}/{0})
 Would you like another round?";
+        private const string k_ButtonText = "O";
 
         private const int k_ButtonSize = 50;
         private const int k_ButtonMargin = 4;
@@ -137,7 +138,7 @@ Would you like another round?";
             }
 
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
-            DialogResult result = MessageBox.Show(messageBoxMessage, "Othello", buttons);
+            DialogResult result = MessageBox.Show(messageBoxMessage, k_Othello, buttons);
 
             if (result == DialogResult.Yes)
             {
@@ -211,11 +212,11 @@ Would you like another round?";
                     {
                         case eBoardCell.Black:
                             currButton.BackColor = Color.Black;
-                            currButton.Text = "O";
+                            currButton.Text = k_ButtonText;
                             break;
                         case eBoardCell.White:
                             currButton.BackColor = Color.White;
-                            currButton.Text = "O";
+                            currButton.Text = k_ButtonText;
                             break;
                         case eBoardCell.Empty:
                             currButton.BackColor = default(Color);
