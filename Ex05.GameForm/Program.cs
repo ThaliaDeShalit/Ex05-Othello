@@ -28,7 +28,6 @@ namespace Ex05.GameForm
                 formGame = new FormGame(formGameSettings.BoardSize, (bool)isGameAgainstComputer);
 
                 formGame.ShowDialog();
-
             }
         }
     }
